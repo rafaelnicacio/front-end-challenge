@@ -1,1 +1,26 @@
-<p>track-list works!</p>
+<div class="container">
+  <header class="header">
+    <h1>ONErpm - Audiocode</h1>
+    <p class="subtitle">Consulta de faixas por código ISRC</p>
+  </header>
+
+  <main class="main-content">
+    <section class="track-list-section">
+      <h2>Lista de Faixas</h2>
+      <div *ngIf="loading" class="loading">Carregando faixas...</div>
+      <div *ngIf="error" class="error">Ocorreu um erro ao buscar as faixas.</div>
+      <ul *ngIf="!loading && !error">
+        <li *ngFor="let track of tracks$ | async">
+          <div class="track-info">
+            <span class="track-title">{{ track?.title || 'Título não disponível' }}</span>
+            <span class="track-artist">{{ track?.artist || 'Artista não disponível' }}</span>
+          </div>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Dados fornecidos pela API do Spotify</p>
+  </footer>
+</div>
