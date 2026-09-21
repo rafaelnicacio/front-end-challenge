@@ -3,7 +3,7 @@ export const environment = {
 
     spotify: {
         clientId: '72416a31409a4c668bc00f1fcb7a8580',
-        clientSecret: '4b75e313aa984207b3b1aa1373a9f8be',
+        clientSecret: 'a370c9d1ede54178bdf2747e4e0f91fe',
         apiUrl: 'https://api.spotify.com/v1'
     },
 }

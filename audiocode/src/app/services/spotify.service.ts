@@ -1,8 +1,9 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, map, Observable, of, switchMap } from 'rxjs';
-import { environment } from '../environments/environments';
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable, of, forkJoin } from 'rxjs';
+import { catchError, map, switchMap } from 'rxjs/operators';
 import { TrackData } from '../models/track.model';
+import { environment } from '../environments/environments';
 
 interface SpotifyTokenResponse {
   access_token: string;
@@ -41,11 +42,11 @@ interface SpotifyTrack {
 export class SpotifyService {
   private readonly tokenUrl = 'https://accounts.spotify.com/api/token';
   private readonly apiUrl = 'https://api.spotify.com/v1';
-
+  
   private accessToken: string | null = null;
   private tokenExpiration: number | null = null;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * Obtains or refreshes the access token using Client Credentials Flow
@@ -75,7 +76,7 @@ export class SpotifyService {
     );
   }
 
-   /**
+  /**
    * Searches for a track by ISRC code
    */
   searchTrackByIsrc(isrc: string): Observable<TrackData | null> {
@@ -91,7 +92,12 @@ export class SpotifyService {
             'Authorization': `Bearer ${token}`
           },
           params
-        });
+        }).pipe(
+          map(response => {
+            console.log('Dados recebidos do Spotify:', response);
+            return response;
+          })
+        );
       }),
       map(response => {
         const track = response.tracks.items[0];
@@ -107,7 +113,15 @@ export class SpotifyService {
     );
   }
 
-    /**
+  /**
+   * Searches for multiple tracks by ISRC codes
+   */
+  searchTracksByIsrcs(isrcs: string[]): Observable<(TrackData | null)[]> {
+    const requests = isrcs.map(isrc => this.searchTrackByIsrc(isrc));
+    return forkJoin(requests);
+  }
+
+  /**
    * Maps Spotify API response to TrackData interface
    */
   private mapToTrackData(track: SpotifyTrack): TrackData {
@@ -129,5 +143,4 @@ export class SpotifyService {
       availableInBR
     };
   }
-
 }
