@@ -1,142 +1,62 @@
-.container {
-    min-height: 100vh;
-    background: linear-gradient(135deg, #ffd9c4 0%, #ecad83 100%);
-    padding: 2rem 1rem;
-}
-
-.header {
-    text-align: center;
-    color: white;
-    margin-bottom: 3rem;
-
-    h1 {
-        font-size: 2.5rem;
-        font-weight: 700;
-        margin-bottom: 0.5rem;
-        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
-    }
-
-    .subtitle {
-        font-size: 1.1rem;
-        opacity: 0.9;
-    }
-}
-
-.main-content {
-    max-width: 1400px;
-    margin: 0 auto;
-
-    h2 {
-        color: #e6ecf0;
-        margin: 1rem 0 0.5rem;
-    }
-}
-
-.loading-container,
-.error-container,
-.empty-state {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 400px;
-    background: white;
-    border-radius: 16px;
-    padding: 3rem;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-    text-align: center;
-
-    h2 {
-        color: #333;
-        margin: 1rem 0 0.5rem;
-    }
-
-    p {
-        color: #666;
-        margin-bottom: 1.5rem;
-    }
-}
-
-.spinner {
-    width: 60px;
-    height: 60px;
-    border: 4px solid #f3f3f3;
-    border-top: 4px solid #667eea;
-    border-radius: 50%;
-    animation: spin 1s linear infinite;
-    margin-bottom: 1rem;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-.error-icon {
-    font-size: 4rem;
-    margin-bottom: 1rem;
-}
-
-.btn-retry {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    border: none;
-    padding: 0.75rem 2rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border-radius: 8px;
-    cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-
-    &:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-    }
-}
-
+/* Contentor da lista de cartões (opcional, para dar espaço entre eles) */
 .tracks-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
 }
 
-.footer {
-    text-align: center;
-    color: white;
-    margin-top: 3rem;
-    padding-top: 2rem;
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
-    opacity: 0.8;
-    font-size: 0.9rem;
+/* O cartão principal da faixa */
+.track-card {
+  display: flex; /* Esta é a regra mágica que coloca lado a lado */
+  align-items: flex-start; /* Alinha o texto pelo topo da imagem */
+  gap: 24px; /* Espaço entre a imagem e os textos */
+  padding: 20px;
+  background-color: #ffffff;
+  border: 1px solid #dfe3e5;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 }
 
-// Responsive breakpoints
-@media (max-width: 768px) {
-    .header h1 {
-        font-size: 1.8rem;
-    }
-
-    .tracks-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .container {
-        padding: 1rem;
-    }
+/* Tamanho fixo e proporção da imagem */
+.track-card img {
+  width: 140px; /* Tamanho muito mais reduzido */
+  height: 140px;
+  object-fit: cover; /* Garante que a imagem não fica distorcida */
+  border-radius: 6px;
+  flex-shrink: 0; /* Impede que a imagem encolha em ecrãs mais pequenos */
 }
 
-@media (max-width: 480px) {
-    .header h1 {
-        font-size: 1.5rem;
-    }
+.brand__logo {
+  display: block;
+  max-height: 55px;
+  width: auto;
+  object-fit: contain;
+}
 
-    .loading-container,
-    .error-container {
-        padding: 2rem 1rem;
-    }
+/* Contentor do texto */
+.track-card__content {
+  display: flex;
+  flex-direction: column;
+  gap: 6px; /* Espaçamento suave entre os parágrafos */
+}
+
+/* Tipografia */
+.track-card__content h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #303638;
+}
+
+.track-card__content p {
+  margin: 0;
+  font-size: 14px;
+  color: #697276;
+}
+
+/* Destaque para o nome do artista para ficar parecido com a referência */
+.track-card__content p:nth-of-type(1) {
+  font-weight: bold;
+  color: #e7793d; /* Laranja da sua paleta */
+  margin-bottom: 8px;
 }

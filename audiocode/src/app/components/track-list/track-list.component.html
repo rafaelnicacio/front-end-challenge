@@ -1,26 +1,49 @@
 <div class="container">
-  <header class="header">
-    <h1>ONErpm - Audiocode</h1>
-    <p class="subtitle">Consulta de faixas por código ISRC</p>
-  </header>
+    <header class="header">
+        <img src="/logo-audiocode.png" class="brand__logo" alt="Audiocode" />
+    </header>
 
-  <main class="main-content">
-    <section class="track-list-section">
-      <h2>Lista de Faixas</h2>
-      <div *ngIf="loading" class="loading">Carregando faixas...</div>
-      <div *ngIf="error" class="error">Ocorreu um erro ao buscar as faixas.</div>
-      <ul *ngIf="!loading && !error">
-        <li *ngFor="let track of tracks$ | async">
-          <div class="track-info">
-            <span class="track-title">{{ track?.title || 'Título não disponível' }}</span>
-            <span class="track-artist">{{ track?.artist || 'Artista não disponível' }}</span>
-          </div>
-        </li>
-      </ul>
-    </section>
-  </main>
+    <main class="main-content">
+        @if (isLoading) {
+        <div class="loading-container">
+            <div class="spinner"></div>
+            <p>Carregando faixas...</p>
+        </div>
+        }
 
-  <footer class="footer">
-    <p>Dados fornecidos pela API do Spotify</p>
-  </footer>
+        @if (hasError) {
+        <div class="error-container">
+            <div class="error-icon">⚠️</div>
+            <h2>Ops! Algo deu errado</h2>
+            <p>{{ errorMessage }}</p>
+            <button class="btn-retry" (click)="loadTracks()">Tentar novamente</button>
+        </div>
+        }
+
+        @if (!isLoading && !hasError && (tracks$ | async); as tracks) {
+        @if (tracks.length === 0) {
+        <div class="empty-state">
+            <p>Nenhuma faixa encontrada.</p>
+        </div>
+        } @else {
+        <div class="tracks-grid">
+            @for (track of getSortedTracks(tracks); track track.isrc) {
+            <article class="track-card">
+                <img [src]="track.albumThumb" [alt]="track.title" />
+                <div class="track-card__content">
+                    <h2>{{ track.title }}</h2>
+                    <p>{{ track.artists.join(', ') }}</p>
+                    <p>{{ track.durationFormated }}</p>
+                    <p>{{ track.releaseDate }}</p>
+                </div>
+            </article>
+            }
+        </div>
+        }
+        }
+    </main>
+
+    <footer class="footer">
+        <p>Dados fornecidos pela API do Spotify • {{ isrcs.length }} ISRCs consultados</p>
+    </footer>
 </div>
