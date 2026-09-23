@@ -128,8 +128,7 @@ export class SpotifyService {
     const durationMinutes = Math.floor(track.duration_ms / 60000);
     const durationSeconds = Math.floor((track.duration_ms % 60000) / 1000);
     const durationFormated = `${durationMinutes.toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
-
-    const availableInBR = track.available_markets?.includes('BR') ?? false;
+    const availableInBR = track.available_markets?.includes('BR') ?? true;
 
     return {
       isrc: track.external_ids.isrc ?? '',
